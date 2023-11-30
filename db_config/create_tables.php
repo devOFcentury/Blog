@@ -59,7 +59,7 @@ $pdo->exec("CREATE TABLE comments (
      CONSTRAINT commments_post_id_foreign 
           FOREIGN KEY (post_id) 
           REFERENCES posts (id) 
-          ON DELETE NO ACTION 
+          ON DELETE CASCADE 
           ON UPDATE NO ACTION
 ) DEFAULT CHARSET=utf8mb4");
 echo 'COMMENTS, ';
@@ -73,7 +73,7 @@ $pdo->exec("CREATE TABLE posts_categories (
           FOREIGN KEY (post_id)
           REFERENCES posts (id)
           ON UPDATE CASCADE
-          ON DELETE RESTRICT,
+          ON DELETE CASCADE,
      CONSTRAINT posts_categories_category_id_foreign
           FOREIGN KEY (category_id)
           REFERENCES categories (id)
@@ -96,6 +96,6 @@ $pdo->exec("CREATE TABLE users_like_posts (
           FOREIGN KEY (post_id)
           REFERENCES posts (id)
           ON UPDATE CASCADE
-          ON DELETE RESTRICT
+          ON DELETE CASCADE
 ) DEFAULT CHARSET=utf8mb4");
 echo 'USERS_LIKE_POSTS were created successfully';
