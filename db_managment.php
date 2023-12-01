@@ -42,6 +42,7 @@
 
           $query = $pdo->prepare("DELETE FROM posts WHERE id = ?");
           $query->execute(array($post_id));
+          return 1;
           
      }
 

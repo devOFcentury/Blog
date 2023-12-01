@@ -7,7 +7,7 @@ $pdo->exec("CREATE TABLE users (
      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
      firstname VARCHAR(100) NOT NULL,
      lastname VARCHAR(100) NOT NULL,
-     pseudo VARCHAR(100) NOT NULL,
+     pseudo VARCHAR(100) UNIQUE NOT NULL,
      email VARCHAR(255) UNIQUE NOT NULL,
      ft_image VARCHAR(255),
      password CHAR(255) NOT NULL,
