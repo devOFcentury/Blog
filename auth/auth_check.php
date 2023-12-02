@@ -160,6 +160,51 @@ function signup()
      
      header('Location: ../index.php',);
 
+     return 1;
+     
+}
+
+function signin() {
+     global $pdo;
+
+     global $email;
+     global $password;
+     global $error_credential;
+
+     
+     if (empty($_POST['email']) || empty($_POST['password'])) {
+          $error_credential = 'Les champs ne doivent pas être vides';
+          return 0;
+     }
+     
+     $email = test_input($_POST['email']);
+     $password = test_input($_POST['password']);
+     
+     
+     $query = $pdo->prepare("SELECT * FROM users WHERE email= :email");
+     $query->execute(array(
+          'email' => $email,
+     ));
+
+     
+     
+     $data_user = $query->fetch();
+     
+     if (empty($data_user) || !password_verify($password, $data_user['password'])) {
+          $error_credential = 'Veuillez vérifier votre email ou mot de passe';
+          return 0;
+     }
+
+
+     $_SESSION['id'] = $data_user['id'];
+     $_SESSION['firstname'] = $data_user['firstname'];
+     $_SESSION['lastname'] = $data_user['lastname'];
+     $_SESSION['pseudo'] = $data_user['pseudo'];
+     $_SESSION['email'] = $data_user['email'];
+     $_SESSION['ft_image'] = $data_user['ft_image'];
+     
+     header('Location: ../index.php',);
+
      exit;
 
      return 1;

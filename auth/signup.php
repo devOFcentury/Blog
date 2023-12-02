@@ -38,7 +38,6 @@
           <div class="signup-wrapper mx-auto px-1 pb-3">
                <h1 class="text-center text-uppercase">SIGN UP</h1>
                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
-                    <div class="row mb-3">
                          <?php
                               if (isset($error_db) && $error_db == 23000) {
                          ?>
@@ -46,6 +45,7 @@
                          <?php
                               }
                          ?>
+                    <div class="row mb-3">
                          <div class="col-12 col-md-6 mb-3 mb-md-0">
                               <input type="text" placeholder="FirstName" name="firstname" id="firstname" class="form-control input" value="<?php echo $firstname  ?>">
                               
