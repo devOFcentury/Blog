@@ -1,3 +1,10 @@
+<?php
+ if (isset($_POST['logout'])) {
+    session_destroy();
+    header('location: ../../index.php');
+ } 
+?>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -8,7 +15,10 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="#">BLOGS</a>
         <a class="nav-link" href="#">FAVORITES</a>
-        <a class="nav-link" href="#">LOGOUT</a>
+        <a class="nav-link" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit()">LOGOUT</a>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="logout-form" method="post" style="display:none">
+          <input type="hidden" name="logout" >
+        </form>
       </div>
     </div>
   </div>

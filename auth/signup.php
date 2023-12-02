@@ -15,6 +15,7 @@
           require_once './auth_check.php';
           $lastNameError = $firstNameError = $pseudoError = $emailError = $ft_image_error = $passwordError = "";
           $firstname = $lastname = $pseudo = $email = $ft_image= $password = $confirm_password = "";
+          $error_db = null;
 
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
                $no_error = checkSignupInput();
@@ -25,7 +26,7 @@
                     try {
                          signup();
                     } catch (\Throwable $e) {
-                         echo $e->getMessage();
+                         $error_db =  $e->getCode();
                     }
                }
                
@@ -38,6 +39,13 @@
                <h1 class="text-center text-uppercase">SIGN UP</h1>
                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
                     <div class="row mb-3">
+                         <?php
+                              if (isset($error_db) && $error_db == 23000) {
+                         ?>
+                              <h4 class="bg-danger text-light text-center mb-3 rounded">Pseudo ou email déjà existant</h4>
+                         <?php
+                              }
+                         ?>
                          <div class="col-12 col-md-6 mb-3 mb-md-0">
                               <input type="text" placeholder="FirstName" name="firstname" id="firstname" class="form-control input" value="<?php echo $firstname  ?>">
                               
