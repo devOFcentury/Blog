@@ -74,3 +74,47 @@ button:active {
      box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
      transform: translateY(0em);
 }
+
+ul li:last-child {
+     width: 100px;
+     position: relative;
+     text-align: left;
+}
+
+.list {
+     width: 100%;
+     position: absolute;
+     box-sizing: border-box;
+     z-index: 1;
+     height: 0px;
+     overflow-y: hidden;
+     top: 50px;
+     left: 0px;
+     border-top: 1px solid #eee;
+     cursor: pointer;
+     -webkit-transition: 0.2s ease-in-out;
+     transition: 0.2s ease-in-out;
+}
+
+.item {
+     width: 100%;
+     background-color: #fff;
+     -webkit-transition: 0.2s ease-in-out;
+     transition: 0.2s ease-in-out;
+     font-weight: 400;
+}
+
+.item:hover {
+     background-color: #eee;
+}
+
+.list-4 {
+     -webkit-transform: translateY(-20px);
+     transform: translateY(-20px);
+     z-index: 10;
+ }
+ #drop-4:checked~ .list-4 {
+     height: initial;
+     -webkit-transform: translateY(0px);
+     transform: translateY(0px);
+ }
