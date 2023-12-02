@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary header">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,7 +8,7 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="#">Blog</a>
         <a class="nav-link" href="#">SIGN IN</a>
-        <a class="nav-link" href="#">SIGN UP</a>
+        <a class="nav-link" href="../../auth/signup.php">SIGN UP</a>
       </div>
     </div>
   </div>
