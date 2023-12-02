@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="#">Blog</a>
-        <a class="nav-link" href="#">SIGN IN</a>
+        <a class="nav-link" href="../../auth/signin.php">SIGN IN</a>
         <a class="nav-link" href="../../auth/signup.php">SIGN UP</a>
       </div>
     </div>
