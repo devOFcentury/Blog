@@ -37,13 +37,19 @@
                          <?php
                               }
                          ?>
-                    <div class="mb-3">
+                    <div class="row mb-3">
+                         <div class="col-12 col-md-8 offset-md-2">
                               <input type="email" placeholder="blog123@gmail.com" name="email" id="email" class="form-control input" value="<?php echo $email ?>">
+                         </div>
                     </div>
-                    <div class="mb-3">
-                         <input type="password" placeholder="Password" name="password" id="password" class="form-control input">
+                    <div class="row mb-3">
+                         <div class="col-12 col-md-8 offset-md-2">
+                              <input type="password" placeholder="Password" name="password" id="password" class="form-control input">
+                         </div>
                     </div>
-                    <button type="submit" class="button">Valider</button>
+                    <div class="text-center">
+                         <button type="submit" class="button">Validate</button>
+                    </div>
                </form>
           </div>
      </div>
