@@ -1,7 +1,5 @@
 <?php
 
-     require 'db_config/db.php';
-
      function add_post(int $user_id, array $posts, array $categories_id) {
           global $pdo;
 
@@ -108,13 +106,15 @@
           
      }
      
-     function get_posts() {
+     function get_posts(int $limit, int $offset) {
           global $pdo;
           
-          $response = $pdo->query("SELECT * FROM posts ");
-          $books = $response->fetchAll();
+          $response = $pdo->prepare("SELECT id, title, SUBSTR(content, 1, 100) AS content, user_id, created_at, updated_at FROM posts ORDER BY id DESC LIMIT :limit OFFSET :offset");
+          $response->bindParam(':limit', $limit, PDO::PARAM_INT);
+          $response->bindParam(':offset', $offset, PDO::PARAM_INT);
+          $response->execute();
           
-          return $books;
+          return $response->fetchAll();
           
      }
      

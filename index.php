@@ -1,5 +1,38 @@
 <?php
-     require './db_config/db.php';
+require_once './db_config/db.php';
+require_once './db_managment.php';
+
+
+
+// On détermine sur quelle page on se trouve
+if (isset($_GET['page']) && !empty($_GET['page'])) {
+     $currentPage = (int) strip_tags($_GET['page']);
+} else {
+     $currentPage = 1;
+}
+
+// On détermine le nombre total de posts
+$query = $pdo->query("SELECT COUNT(*) AS nb_posts FROM posts");
+$results = $query->fetch();
+
+$nb_posts = (int) $results['nb_posts'];
+
+// On détermine le nombre d'articles par page
+$parPage = 10;
+
+// On calcule le nombre de pages total
+$pages = ceil($nb_posts / $parPage);
+
+// Calcul du 1er article de la page
+$premier = ($currentPage * $parPage) - $parPage;
+
+try {
+     $posts = get_posts($parPage, $premier);
+} catch (\Throwable $e) {
+     echo $e->getMessage();
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,12 +50,11 @@
 <body>
      <!-- Header -->
      <?php
-          if (isset($_SESSION['id'])) {
-               include_once('partials/headers/connected-header.php');
-          }
-          else {
-               include_once('partials/headers/guest-header.php');
-          }
+     if (isset($_SESSION['id'])) {
+          include_once('partials/headers/connected-header.php');
+     } else {
+          include_once('partials/headers/guest-header.php');
+     }
      ?>
      <div class="container">
           <div class="row d-md-none">
@@ -37,42 +69,40 @@
 
                <div class="col-8">
                     <div class="row">
-                         <div class="col-12 col-md-4 py-3">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title">Special title treatment</h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                         <?php
+                         foreach ($posts as $post) {
+                         ?>
+                              <div class="col-12 col-md-4 py-3">
+                                   <div class="card">
+                                        <div class="card-body">
+                                             <h5 class="card-title"><?php echo $post['title'] ?></h5>
+                                             <p class="card-text"><?php echo $post['content'] ?></p>
+                                        </div>
+                                        <a href="#" class="btn card-button">See More</a>
                                    </div>
-                                   <a href="#" class="btn card-button">See More</a>
                               </div>
-                         </div>
-                         <div class="col-12 col-md-4 py-3">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title">Special title treatment</h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                   </div>
-                                   <a href="#" class="btn card-button">See More</a>
-                              </div>
-                         </div>
-                         <div class="col-12 col-md-4 py-3">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title">Special title treatment</h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                   </div>
-                                   <a href="#" class="btn card-button">See More</a>
-                              </div>
-                         </div>
-                         <div class="col-12 col-md-4 py-3">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title">Special title treatment</h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                   </div>
-                                   <a href="#" class="btn card-button">See More</a>
-                              </div>
-                         </div>
+
+                         <?php
+                         }
+                         ?>
+                    <nav class="offset-2 col-8">
+                         <ul class="pagination">
+                              <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
+                              <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
+                                   <a href="./?page=<?= $currentPage - 1 ?>" class="page-link">Précédente</a>
+                              </li>
+                              <?php for ($page = 1; $page <= $pages; $page++) : ?>
+                                   <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
+                                   <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
+                                        <a href="./?page=<?= $page ?>" class="page-link"><?= $page ?></a>
+                                   </li>
+                              <?php endfor ?>
+                              <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
+                              <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
+                                   <a href="./?page=<?= $currentPage + 1 ?>" class="page-link">Suivante</a>
+                              </li>
+                         </ul>
+                    </nav>
                     </div>
                </div>
 
@@ -80,9 +110,9 @@
                     <div>
                          <div class="mb-3 text-center d-none d-md-block">
                               <form action="" method="post">
-                                   <input type="search" name="" class="input mb-2 form-control" placeholder="Search Here...">  
+                                   <input type="search" name="" class="input mb-2 form-control" placeholder="Search Here...">
                                    <button type="submit" class="btn btn-info mb-2 mb-md-0 mx-md-3">search</button>
-                                   
+
                               </form>
                          </div>
                          <div class="text-md-center">
@@ -92,7 +122,7 @@
                </aside>
 
           </div>
-          
+
      </div>
 
 
