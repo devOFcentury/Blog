@@ -127,7 +127,7 @@
           
      }
      
-     function get_posts(int $limit, int $offset) {
+     function get_posts(int $limit = 10, int $offset = 0) {
           global $pdo;
           
           $response = $pdo->prepare("SELECT id, title, SUBSTR(content, 1, 100) AS content, user_id, created_at, updated_at FROM posts ORDER BY id DESC LIMIT :limit OFFSET :offset");
