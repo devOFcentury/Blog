@@ -1,5 +1,26 @@
 <?php
 
+     function search_posts(string $search, int $limit = 10, int $offset = 0) {
+          global $pdo;
+
+          $search = trim($search);
+          $search = stripslashes($search);
+          $search = htmlspecialchars($search);
+
+          $response = $pdo->prepare("SELECT id, title, SUBSTR(content, 1, 100) AS content, user_id, created_at, updated_at 
+               FROM posts 
+               WHERE title LIKE :title
+               ORDER BY id DESC LIMIT :limit OFFSET :offset
+          ");
+
+          $response->bindValue(':title', '%'.$search.'%' , PDO::PARAM_STR);
+          $response->bindParam(':limit', $limit, PDO::PARAM_INT);
+          $response->bindParam(':offset', $offset, PDO::PARAM_INT);
+          $response->execute();
+
+          return $response->fetchAll();
+     }
+
      function add_post(int $user_id, array $posts, array $categories_id) {
           global $pdo;
 

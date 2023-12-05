@@ -2,8 +2,6 @@
 require_once './db_config/db.php';
 require_once './db_managment.php';
 
-
-
 // On détermine sur quelle page on se trouve
 if (isset($_GET['page']) && !empty($_GET['page'])) {
      $currentPage = (int) strip_tags($_GET['page']);
@@ -26,11 +24,23 @@ $pages = ceil($nb_posts / $parPage);
 // Calcul du 1er article de la page
 $premier = ($currentPage * $parPage) - $parPage;
 
-try {
-     $posts = get_posts($parPage, $premier);
-} catch (\Throwable $e) {
-     echo $e->getMessage();
+
+if (isset($_POST['search']) AND !empty($_POST['search'])) {
+     try {
+          $posts = search_posts($_POST['search'], $parPage, $premier);
+     } catch (\Throwable $e) {
+          echo $e->getMessage();
+     }
+} else {
+     
+     try {
+          $posts = get_posts($parPage, $premier);
+     } catch (\Throwable $e) {
+          echo $e->getMessage();
+     }
 }
+
+
 
 
 ?>
@@ -59,10 +69,13 @@ try {
      <div class="container">
           <div class="row d-md-none">
                <div class="offset-2 col-8 d-flex flex-column flex-md-row justify-content-center">
-                    <input type="search" name="" class="input" placeholder="Search Here...">
-                    <div class="text-center">
-                         <button class="button mx-md-3">search</button>
-                    </div>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                         <input type="search" name="search" class="input" placeholder="Search Here...">
+                         <div class="text-center">
+                              <button type="submit" class="button mx-md-3">Search</button>
+                              <button type="submit" class="button mx-md-3">Clear</button>
+                         </div>
+                    </form>
                </div>
           </div>
           <div class="row pt-md-5">
@@ -109,13 +122,13 @@ try {
                <aside class="col-4">
                     <div>
                          <div class="mb-3 text-center d-none d-md-block">
-                              <form action="" method="post">
-                                   <input type="search" name="" class="input mb-2 form-control" placeholder="Search Here...">
-                                   <button type="submit" class="btn btn-info mb-2 mb-md-0 mx-md-3">search</button>
-
+                              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                   <input type="search" name="search" class="input mb-2 form-control" placeholder="Search Here...">
+                                   <button type="submit" class="btn btn-info mb-2 mb-md-0 mx-md-3">Search</button>
+                                   <button type="submit" class="btn btn-info mb-2 mb-md-0 mx-md-3">Clear</button>
                               </form>
                          </div>
-                         <div class="text-md-center">
+                         <div class="text-md-center mt-3">
                               <button title="Add a post" class="btn btn-info"><i class="fa-solid fa-circle-plus"></i> POST</button>
                          </div>
                     </div>
