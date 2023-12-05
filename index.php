@@ -15,14 +15,14 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
 define('PER_PAGE', 10);
 
 
-if (isset($_GET['search']) AND !empty($_GET['search'])) {
+if (isset($_GET['search']) and !empty($_GET['search'])) {
      // On détermine le nombre total de posts
      $query = $pdo->prepare("SELECT COUNT(*) AS nb_posts 
           FROM posts
           WHERE title LIKE :title
      ");
 
-     $query->bindValue(':title', '%'.$_GET['search'].'%' , PDO::PARAM_STR);
+     $query->bindValue(':title', '%' . $_GET['search'] . '%', PDO::PARAM_STR);
      $query->execute();
      $results = $query->fetch();
      $nb_posts = (int) $results['nb_posts'];
@@ -33,11 +33,11 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
      if (isset($_GET['page']) && !empty($_GET['page'])) {
           // on détermine à partir de quel nombre on récupère les posts
           $offset = (((int) strip_tags($_GET['page'])) - 1) * PER_PAGE;
-         try {
-              $posts = search_posts($_GET['search'], PER_PAGE, $offset);
-         } catch (\Throwable $e) {
-              echo $e->getMessage();
-         }
+          try {
+               $posts = search_posts($_GET['search'], PER_PAGE, $offset);
+          } catch (\Throwable $e) {
+               echo $e->getMessage();
+          }
      } else {
           try {
                $posts = search_posts($_GET['search']);
@@ -45,7 +45,6 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
                echo $e->getMessage();
           }
      }
-
 } else {
      // On détermine le nombre total de posts
      $query = $pdo->query("SELECT COUNT(*) AS nb_posts FROM posts");
@@ -70,7 +69,6 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
                echo $e->getMessage();
           }
      }
-
 }
 
 
@@ -106,7 +104,7 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
                          <input type="search" name="search" class="input" placeholder="Search Here...">
                          <div class="text-center">
                               <button type="submit" class="button mx-md-3">Search</button>
-                              <button type="submit" class="button mx-md-3">Clear</button>
+                              <button onclick="event.preventDefault();window.location='index.php'" class="button mx-md-3">Clear</button>
                          </div>
                     </form>
                </div>
@@ -115,7 +113,7 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
 
                <div class="col-8">
                     <div class="row">
-                         <?php foreach ($posts as $post): ?>
+                         <?php foreach ($posts as $post) : ?>
                               <div class="col-12 col-md-4 py-3">
                                    <div class="card">
                                         <div class="card-body">
@@ -127,22 +125,22 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
                               </div>
                          <?php endforeach; ?>
 
-                         <?php if($nb_posts > 10): ?>
+                         <?php if ($nb_posts > 10) : ?>
                               <nav class="offset-2 col-8">
                                    <ul class="pagination">
                                         <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
                                         <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
-                                             <a href="./?page=<?= (isset($_GET['search']) AND !empty($_GET['search'])) ? ($currentPage - 1). '&amp;search=' . $_GET['search'] : $currentPage - 1 ?>" class="page-link">Précédente</a>
+                                             <a href="./?page=<?= (isset($_GET['search']) and !empty($_GET['search'])) ? ($currentPage - 1) . '&amp;search=' . $_GET['search'] : $currentPage - 1 ?>" class="page-link">Précédente</a>
                                         </li>
                                         <?php for ($page = 1; $page <= $pages; $page++) : ?>
                                              <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
                                              <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
-                                                  <a href="./?page=<?= (isset($_GET['search']) AND !empty($_GET['search'])) ? $page. '&amp;search=' . $_GET['search'] : $page ?>" class="page-link"><?= $page ?></a>
+                                                  <a href="./?page=<?= (isset($_GET['search']) and !empty($_GET['search'])) ? $page . '&amp;search=' . $_GET['search'] : $page ?>" class="page-link"><?= $page ?></a>
                                              </li>
                                         <?php endfor ?>
                                         <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
                                         <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
-                                             <a href="./?page=<?= (isset($_GET['search']) AND !empty($_GET['search'])) ? ($currentPage + 1). '&amp;search=' . $_GET['search'] : $currentPage + 1 ?>" class="page-link">Suivante</a>
+                                             <a href="./?page=<?= (isset($_GET['search']) and !empty($_GET['search'])) ? ($currentPage + 1) . '&amp;search=' . $_GET['search'] : $currentPage + 1 ?>" class="page-link">Suivante</a>
                                         </li>
                                    </ul>
                               </nav>
@@ -156,7 +154,7 @@ if (isset($_GET['search']) AND !empty($_GET['search'])) {
                               <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="GET">
                                    <input type="search" name="search" class="input mb-2 form-control" placeholder="Search Here...">
                                    <button type="submit" class="btn btn-info mb-2 mb-md-0 mx-md-3">Search</button>
-                                   <button type="submit" class="btn btn-info mb-2 mb-md-0 mx-md-3">Clear</button>
+                                   <button onclick="event.preventDefault();window.location='index.php'" class="btn btn-info mb-2 mb-md-0 mx-md-3">Clear</button>
                               </form>
                          </div>
                          <div class="text-md-center mt-3">
