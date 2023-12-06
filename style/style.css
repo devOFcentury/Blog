@@ -126,27 +126,11 @@ ul li:last-child {
      color: #090909;
      background: #e8e8e8;
      transition: 0.5s ease-out;
-     overflow: visible;
+     overflow: hidden;
      border: 1px solid #e8e8e8;
      border-radius: 20px;
      box-shadow: 6px 6px 12px #c5c5c5,
           -6px -6px 12px #ffffff;
-}
-
-.card-button {
-     transform: translate(-50%, 125%);
-     width: 60%;
-     border-radius: 1rem;
-     border: none;
-     background-color: #008bf8;
-     color: #fff;
-     font-size: 1rem;
-     padding: .5rem 1rem;
-     position: absolute;
-     left: 50%;
-     bottom: 0;
-     opacity: 0;
-     transition: 0.3s ease-out;
 }
 
 /*Hover*/
@@ -155,7 +139,31 @@ ul li:last-child {
      box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
 }
 
-.card:hover .card-button {
-     transform: translate(-50%, 50%);
-     opacity: 1;
+.modify_button , .see_more_button {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     box-sizing: border-box;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: #008bf8;
+     text-decoration: none;
+     color: #FFF;
+     position: absolute;
+     left: -50%;
+     bottom: 0%;
+     transition: 0.3s ease-out;
+}
+
+.modify_button {
+     transform: translateY(-200%);
+}
+
+.see_more_button {
+     transform: translateY(-50%);
+}
+
+.card:hover .modify_button, .card:hover .see_more_button {
+     left: 10%;
 }

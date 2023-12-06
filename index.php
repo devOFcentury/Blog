@@ -10,7 +10,6 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
 }
 
 
-
 // On détermine le nombre d'articles par page
 define('PER_PAGE', 10);
 
@@ -21,7 +20,6 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
           FROM posts
           WHERE title LIKE :title
      ");
-
      $query->bindValue(':title', '%' . $_GET['search'] . '%', PDO::PARAM_STR);
      $query->execute();
      $results = $query->fetch();
@@ -71,9 +69,6 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
      }
 }
 
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,13 +109,21 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                <div class="col-8">
                     <div class="row">
                          <?php foreach ($posts as $post) : ?>
-                              <div class="col-12 col-md-4 py-3">
+                              <div class="col-12 col-md-4 py-3 d-flex align-items-stretch">
                                    <div class="card">
                                         <div class="card-body">
-                                             <h5 class="card-title"><?php echo $post['title'] ?></h5>
-                                             <p class="card-text"><?php echo $post['content'] ?></p>
+                                             <h5 class="card-title"><?= $post['title'] ?></h5>
+                                             <p class="card-text"><?= $post['content'] ?></p>
                                         </div>
-                                        <a href="#" class="btn card-button">See More</a>
+                                        <div class="card-footer d-flex justify-content-between flex-wrap">
+                                             <p class="card-text"><?= (isset($_SESSION['id']) AND ($_SESSION['id'] == $post['user_id'])) ? 'Vous' : $post['pseudo'] ?></p>
+                                             <p class="card-text"><?= $post['creation_date'] ?></p>
+                                        </div>
+                                        <!-- <a href="#" class="btn card-button">See More</a> -->
+                                        <?php if(isset($_SESSION['id']) AND ($_SESSION['id'] == $post['user_id'])): ?>
+                                             <a href="#" class="modify_button"><i class="fa-solid fa-pen"></i></a>
+                                        <?php endif; ?>
+                                        <a href="#" class="see_more_button"><i class="fa-solid fa-eye"></i></i></a>
                                    </div>
                               </div>
                          <?php endforeach; ?>
@@ -137,7 +140,7 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                                              <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
                                                   <a href="./?page=<?= (isset($_GET['search']) and !empty($_GET['search'])) ? $page . '&amp;search=' . $_GET['search'] : $page ?>" class="page-link"><?= $page ?></a>
                                              </li>
-                                        <?php endfor ?>
+                                        <?php endfor; ?>
                                         <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
                                         <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
                                              <a href="./?page=<?= (isset($_GET['search']) and !empty($_GET['search'])) ? ($currentPage + 1) . '&amp;search=' . $_GET['search'] : $currentPage + 1 ?>" class="page-link">Suivante</a>
