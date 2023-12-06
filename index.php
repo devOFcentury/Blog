@@ -119,7 +119,6 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                                              <p class="card-text"><?= (isset($_SESSION['id']) AND ($_SESSION['id'] == $post['user_id'])) ? 'Vous' : $post['pseudo'] ?></p>
                                              <p class="card-text"><?= $post['creation_date'] ?></p>
                                         </div>
-                                        <!-- <a href="#" class="btn card-button">See More</a> -->
                                         <?php if(isset($_SESSION['id']) AND ($_SESSION['id'] == $post['user_id'])): ?>
                                              <a href="#" class="modify_button"><i class="fa-solid fa-pen"></i></a>
                                         <?php endif; ?>

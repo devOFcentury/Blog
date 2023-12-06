@@ -12,18 +12,32 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <!-- <a class="nav-link user" href="#"><?php echo $_SESSION['pseudo'];  ?></a> -->
-          <input type="checkbox" id="drop-4" hidden>
-          <label class="dropHeader dropHeader-4 nav-link" role="button" for="drop-4"><?php echo $_SESSION['pseudo'];  ?></label>
-          <div class="list list-4">
-            <a href="../../index.php" class="item nav-link text-capitalize">
-                <i class="fa-solid fa-house"></i> 
-                Dashboard
+
+        <li class="nav-item d-flex justify-content-center">
+          <input type="checkbox" id="toggle-1" hidden>
+          <label class="nav-link border rounded" role="button" for="toggle-1">Blogs</label>
+          <div class="list list-1">
+            <a href="#" class="item nav-link text-capitalize">
+              <i class="fa-solid fa-blog"></i>  
+              My Blogs
             </a>
             <a href="#" class="item nav-link text-capitalize">
               <i class="fa-solid fa-star"></i>
-              favorites
+              Favorites
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item d-flex justify-content-center">
+          <input type="checkbox" id="toggle-2" class="input_img" hidden>
+          <label class="label_profile nav-link" role="button" for="toggle-2">
+            <img src="../../images_profile/<?= $_SESSION['ft_image'] ?>" alt="image profile" class="image_profile">
+          </label>
+          <div class="list list-2">
+            <span class="item nav-link text-capitalize border-bottom"><?= $_SESSION['pseudo'] ?></span>
+            <a href="../../index.php" class="item nav-link text-capitalize">
+                <i class="fa-solid fa-house"></i> 
+                Dashboard
             </a>
             <a href="#" class="item nav-link text-capitalize">
               <i class="fa-solid fa-gear"></i>

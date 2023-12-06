@@ -30,13 +30,9 @@
           <div class="signup-wrapper mx-auto px-1 pb-3">
                <h1 class="text-center text-uppercase">SIGN IN</h1>
                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-                         <?php
-                              if (isset($error_credential)) {
-                         ?>
-                              <h4 class="bg-danger text-light text-center mb-3 rounded"><?php echo $error_credential; ?></h4>
-                         <?php
-                              }
-                         ?>
+                    <?php if (isset($error_credential)): ?>
+                         <h4 class="bg-danger text-light text-center mb-3 rounded"><?php echo $error_credential; ?></h4>
+                    <?php endif; ?>
                     <div class="row mb-3">
                          <div class="col-12 col-md-8 offset-md-2">
                               <input type="email" placeholder="blog123@gmail.com" name="email" id="email" class="form-control input" value="<?php echo $email ?>">
