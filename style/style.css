@@ -15,8 +15,8 @@ body {
 .header {
      position: sticky;
      top: 0;
+     z-index: 1;
 }
-
 
 .signup-wrapper {
      width: 70%;
@@ -48,7 +48,7 @@ body {
 }
 
 
-button {
+.button {
      font-size: 18px;
      display: inline-block;
      outline: 0;
@@ -65,18 +65,18 @@ button {
      transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
-button:hover {
+.button:hover {
      box-shadow: 0px 0.1em 0.2em rgb(45 35 66 / 40%), 0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%), inset 0px -0.1em 0px #3c4fe0;
      transform: translateY(-0.1em);
 }
 
-button:active {
+.button:active {
      box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
      transform: translateY(0em);
 }
 
 ul li:last-child {
-     width: 100px;
+     width: 120px;
      position: relative;
      text-align: left;
 }
@@ -112,9 +112,58 @@ ul li:last-child {
      -webkit-transform: translateY(-20px);
      transform: translateY(-20px);
      z-index: 10;
- }
- #drop-4:checked~ .list-4 {
+}
+
+#drop-4:checked~.list-4 {
      height: initial;
      -webkit-transform: translateY(0px);
      transform: translateY(0px);
- }
+}
+
+
+.card {
+     position: relative;
+     color: #090909;
+     background: #e8e8e8;
+     transition: 0.5s ease-out;
+     overflow: hidden;
+     border: 1px solid #e8e8e8;
+     border-radius: 20px;
+     box-shadow: 6px 6px 12px #c5c5c5,
+          -6px -6px 12px #ffffff;
+}
+
+/*Hover*/
+.card:hover {
+     border-color: #008bf8;
+     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.modify_button , .see_more_button {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     box-sizing: border-box;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: #008bf8;
+     text-decoration: none;
+     color: #FFF;
+     position: absolute;
+     left: -50%;
+     bottom: 0%;
+     transition: 0.3s ease-out;
+}
+
+.modify_button {
+     transform: translateY(-200%);
+}
+
+.see_more_button {
+     transform: translateY(-50%);
+}
+
+.card:hover .modify_button, .card:hover .see_more_button {
+     left: 10%;
+}
