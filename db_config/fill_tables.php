@@ -47,10 +47,10 @@ $categories_array = ['SPORT', 'MANGA', 'ANIME', 'TRAVEL', 'COOK', 'MUSIC', 'DANC
 
 // create categories
 for ($i=0; $i < count($categories_array); $i++) { 
-     $req = $pdo->prepare("INSERT INTO categories(categorie, created_at, updated_at)
-     VALUES(:categorie, :created_at, :updated_at)");
+     $req = $pdo->prepare("INSERT INTO categories(category, created_at, updated_at)
+     VALUES(:category, :created_at, :updated_at)");
      $req->execute(array(
-          'categorie' => $categories_array[$i],
+          'category' => $categories_array[$i],
           'created_at' => "{$faker->date()} {$faker->time()}",
           'updated_at' => "{$faker->date()} {$faker->time()}"
      ));
