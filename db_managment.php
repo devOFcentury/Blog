@@ -152,6 +152,13 @@ function get_posts(int $limit = 10, int $offset = 0)
      return $response->fetchAll();
 }
 
+function get_categories()
+{
+     global $pdo;
+     $query = $pdo->query('SELECT * FROM categories');
+     return $query->fetchAll();
+}
+
 function delete_link_posts_categories(int $post_id)
 {
      global $pdo;

@@ -7,9 +7,7 @@
      }
 ?>
 
-     <?php
-          require_once '../partials/headers/guest-header.php';
-     ?>
+     <?php require_once '../partials/headers/guest-header.php'; ?>
 
      <?php
           require_once './auth_check.php';
@@ -35,7 +33,7 @@
      ?>
 
      <div class="container mt-3">
-          <div class="signup-wrapper mx-auto px-1 pb-3">
+          <div class="wrapper mx-auto px-1 pb-3">
                <h1 class="text-center text-uppercase">SIGN UP</h1>
                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
                     <?php if (isset($error_db) && $error_db == 23000): ?>

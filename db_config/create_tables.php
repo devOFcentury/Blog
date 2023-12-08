@@ -19,7 +19,7 @@ echo 'Tables: USERS, ';
 // create categories table
 $pdo->exec("CREATE TABLE categories (
      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-     categorie VARCHAR(100) NOT NULL,
+     category VARCHAR(100) NOT NULL,
      created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
      updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 ) DEFAULT CHARSET=utf8mb4");

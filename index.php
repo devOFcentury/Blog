@@ -160,7 +160,7 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                               </form>
                          </div>
                          <div class="text-md-center mt-3">
-                              <button title="Add a post" class="btn btn-info"><i class="fa-solid fa-circle-plus"></i> POST</button>
+                              <a href="./pages/add_post.php" type="button" title="Add a post" class="btn btn-info"><i class="fa-solid fa-circle-plus"></i> POST</a>
                          </div>
                     </div>
                </aside>
