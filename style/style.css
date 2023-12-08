@@ -75,7 +75,7 @@ body {
      transform: translateY(0em);
 }
 
-ul li:last-child {
+ul li:first-child, ul li:last-child {
      width: 120px;
      position: relative;
      text-align: left;
@@ -90,7 +90,6 @@ ul li:last-child {
      overflow-y: hidden;
      top: 50px;
      left: 0px;
-     border-top: 1px solid #eee;
      cursor: pointer;
      -webkit-transition: 0.2s ease-in-out;
      transition: 0.2s ease-in-out;
@@ -108,13 +107,13 @@ ul li:last-child {
      background-color: #eee;
 }
 
-.list-4 {
+.list-1, .list-2 {
      -webkit-transform: translateY(-20px);
      transform: translateY(-20px);
      z-index: 10;
 }
 
-#drop-4:checked~.list-4 {
+#toggle-2:checked~.list-2, #toggle-1:checked~.list-1 {
      height: initial;
      -webkit-transform: translateY(0px);
      transform: translateY(0px);
@@ -166,4 +165,16 @@ ul li:last-child {
 
 .card:hover .modify_button, .card:hover .see_more_button {
      left: 10%;
+}
+
+.label_profile {
+     width: 50px;
+     padding: 0;
+}
+
+.image_profile {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     /* margin: auto; */
 }
