@@ -2,14 +2,6 @@
 
 require '../checks/check_datas.php';
 
-function test_input($data)
-{
-     $data = trim($data);
-     $data = stripslashes($data);
-     $data = htmlspecialchars($data);
-     return $data;
-}
-
 function checkSignupInput()
 {
      global $firstNameError;

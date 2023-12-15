@@ -1,5 +1,12 @@
 <?php
 
+     function test_input($data)
+     {
+          $data = trim($data);
+          $data = stripslashes($data);
+          $data = htmlspecialchars($data);
+          return $data;
+     }
 
      function img_check(array $img) {
           if (isset($img) && $img['error'] == 0) {

@@ -75,10 +75,6 @@ function update_myPost(int $user_id, array $posts, int $post_id)
 {
      global $pdo;
 
-     if (count($posts) == 0) {
-          throw new Error('Remplissez correctement les arguments');
-     }
-
      // we retrieve user_id of post
      $queryCheck = $pdo->prepare("SELECT user_id FROM posts WHERE id = ?");
      $queryCheck->execute(array($post_id));
@@ -90,6 +86,7 @@ function update_myPost(int $user_id, array $posts, int $post_id)
      }
 
      $queryCheck->closeCursor();
+
 
      // make my dynamic query
      $out = "UPDATE posts SET ";
@@ -138,7 +135,7 @@ function get_posts(int $limit = 10, int $offset = 0)
      global $pdo;
 
      $response = $pdo->prepare("SELECT 
-               posts.id, title, SUBSTR(content, 1, 100) AS content, user_id, DATE(posts.created_at) creation_date, users.pseudo
+               posts.id, SUBSTR(title, 1, 20) AS title, SUBSTR(content, 1, 100) AS content, user_id, DATE(posts.created_at) creation_date, users.pseudo
                FROM posts
                INNER JOIN users
                     ON posts.user_id = users.id
@@ -157,6 +154,27 @@ function get_categories()
      global $pdo;
      $query = $pdo->query('SELECT * FROM categories');
      return $query->fetchAll();
+}
+
+function get_categories_of_a_post(int $post_id) {
+     global $pdo;
+
+     $query = $pdo->prepare("SELECT categories.id AS id_categories
+          FROM categories
+          INNER JOIN posts_categories as pc
+               ON categories.id = pc.category_id
+          INNER JOIN posts
+               ON pc.post_id = posts.id
+          WHERE posts.id = :id_post;
+     ");
+     $query->execute(array(
+          'id_post' => $post_id,
+     ));
+
+     $response = $query->fetchAll();
+     $results = array_column($response, 'id_categories');
+
+     return $results;
 }
 
 function delete_link_posts_categories(int $post_id)
