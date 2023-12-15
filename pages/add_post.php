@@ -2,6 +2,7 @@
 require_once '../db_config/db.php';
 require_once '../db_managment.php';
 require_once '../partials/auth-layout/part-1.php';
+require_once '../checks/check_datas.php';
 
 if (!isset($_SESSION['id'])) {
      header('location: ../auth/signin.php');
@@ -21,23 +22,33 @@ if (!isset($_SESSION['id'])) {
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
                if (empty($_POST['title']) || empty($_POST['content'])) {
                     $error_post = 'Les champs ne doivent pas être vides';
-               } else {
-               
-                    $allSelectedNumbers = array_map(function ($number) {
-                         return (int) $number;
-                    }, $_POST['numbers']);
-               
-                    $post = array(
-                         'title' => $_POST['title'],
-                         'content' => $_POST['content']
-                    );
-               
-                    try {
-                         add_post($_SESSION['id'], $post, $allSelectedNumbers);
-                         $success_post = "Post créé avec succès";
-                    } catch (\Throwable $e) {
-                         echo  $e->getMessage();
+               } 
+               else {
+                    $_POST['title'] = test_input($_POST['title']);
+                    $_POST['content'] = test_input($_POST['content']);
+
+                    if ($_POST['title'] == '' || $_POST['content'] == '') {
+                         $error_post = 'Les champs ne doivent pas être vides';
+                    } 
+                    else {
+                         
+                         $allSelectedNumbers = array_map(function ($number) {
+                              return (int) $number;
+                         }, $_POST['numbers']);
+                    
+                         $post = array(
+                              'title' => $_POST['title'],
+                              'content' => $_POST['content']
+                         );
+                    
+                         try {
+                              add_post($_SESSION['id'], $post, $allSelectedNumbers);
+                              $success_post = "Post créé avec succès";
+                         } catch (\Throwable $e) {
+                              echo  $e->getMessage();
+                         }
                     }
+               
                }
           }
      ?>

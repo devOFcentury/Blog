@@ -130,12 +130,19 @@ ul li:first-child, ul li:last-child {
      border-radius: 20px;
      box-shadow: 6px 6px 12px #c5c5c5,
           -6px -6px 12px #ffffff;
+     flex: 1;
 }
 
 /*Hover*/
 .card:hover {
      border-color: #008bf8;
      box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+aside {
+     height: 150px;
+     position: sticky;
+     top: 55px;
 }
 
 .modify_button , .see_more_button {

@@ -97,8 +97,8 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                <div class="offset-2 col-8 d-flex flex-column flex-md-row justify-content-center">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="GET">
                          <input type="search" name="search" class="input" placeholder="Search Here...">
-                         <div class="text-center">
-                              <button type="submit" class="button mx-md-3">Search</button>
+                         <div>
+                              <button type="submit" class="button mx-md-3 mb-2">Search</button>
                               <button onclick="event.preventDefault();window.location='index.php'" class="button mx-md-3">Clear</button>
                          </div>
                     </form>
@@ -111,8 +111,10 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                          <?php foreach ($posts as $post) : ?>
                               <div class="col-12 col-md-4 py-3 d-flex align-items-stretch">
                                    <div class="card">
-                                        <div class="card-body">
+                                        <div class="card-header">
                                              <h5 class="card-title"><?= $post['title'] ?></h5>
+                                        </div>
+                                        <div class="card-body">
                                              <p class="card-text"><?= $post['content'] ?></p>
                                         </div>
                                         <div class="card-footer d-flex justify-content-between flex-wrap">
@@ -120,7 +122,7 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                                              <p class="card-text"><?= $post['creation_date'] ?></p>
                                         </div>
                                         <?php if(isset($_SESSION['id']) AND ($_SESSION['id'] == $post['user_id'])): ?>
-                                             <a href="#" class="modify_button"><i class="fa-solid fa-pen"></i></a>
+                                             <a href="./pages/edit_post.php?post_id=<?= $post['id'] ?>" class="modify_button"><i class="fa-solid fa-pen"></i></a>
                                         <?php endif; ?>
                                         <a href="#" class="see_more_button"><i class="fa-solid fa-eye"></i></i></a>
                                    </div>

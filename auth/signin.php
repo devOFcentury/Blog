@@ -27,7 +27,7 @@
      ?>
 
      <div class="container mt-3">
-          <div class="signup-wrapper mx-auto px-1 pb-3">
+          <div class="wrapper mx-auto px-1 pb-3">
                <h1 class="text-center text-uppercase">SIGN IN</h1>
                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
                     <?php if (isset($error_credential)): ?>
