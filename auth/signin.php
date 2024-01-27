@@ -1,20 +1,27 @@
 <?php
      require '../db_config/db.php';
-     require_once '../partials/auth-layout/part-1.php';
 
      if (isset($_SESSION['id'])) {
           header('Location: ../index.php');
      }
 ?>
-
-     <?php
-          require_once '../partials/headers/guest-header.php';
-     ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Sign in</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+     <link rel="stylesheet" href="../style/style.css?<?php echo filemtime("../style/style.css"); ?>" type="text/css">
+</head>
+<body>
+     <?php require_once '../partials/headers/guest-header.php'; ?>
+     
      <?php
           require_once './auth_check.php';
           $error_credential = $email = $password = '';
-
+     
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     try {
                          signin();
@@ -25,7 +32,7 @@
           }
           
      ?>
-
+     
      <div class="container mt-3">
           <div class="wrapper mx-auto px-1 pb-3">
                <h1 class="text-center text-uppercase">SIGN IN</h1>
@@ -50,6 +57,5 @@
           </div>
      </div>
      
-<?php
-     require_once '../partials/auth-layout/part-2.php';
-?>
+</body>
+</html>

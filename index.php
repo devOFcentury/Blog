@@ -76,8 +76,7 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Document</title>
-     <!-- <link rel="stylesheet" href="style/style.css"> -->
+     <title>Home</title>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
      <link href="style/style.css?<?php echo filemtime("style/style.css"); ?>" rel="stylesheet" type="text/css" />
@@ -124,7 +123,7 @@ if (isset($_GET['search']) and !empty($_GET['search'])) {
                                         <?php if(isset($_SESSION['id']) AND ($_SESSION['id'] == $post['user_id'])): ?>
                                              <a href="./pages/edit_post.php?post_id=<?= $post['id'] ?>" class="modify_button"><i class="fa-solid fa-pen"></i></a>
                                         <?php endif; ?>
-                                        <a href="#" class="see_more_button"><i class="fa-solid fa-eye"></i></i></a>
+                                        <a href="./pages/show_post.php?post_id=<?= $post['id'] ?>" class="see_more_button"><i class="fa-solid fa-eye"></i></i></a>
                                    </div>
                               </div>
                          <?php endforeach; ?>

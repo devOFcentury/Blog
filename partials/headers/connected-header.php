@@ -31,7 +31,11 @@
         <li class="nav-item d-flex justify-content-center">
           <input type="checkbox" id="toggle-2" class="input_img" hidden>
           <label class="label_profile nav-link" role="button" for="toggle-2">
+          <?php if(!empty($_SESSION['ft_image'])): ?>   
             <img src="../../images_profile/<?= $_SESSION['ft_image'] ?>" alt="image profile" class="image_profile">
+          <?php else: ?> 
+              <img src="../../images_profile/default-image.png" alt="image profile" class="image_profile">
+          <?php endif; ?>
           </label>
           <div class="list list-2">
             <span class="item nav-link text-capitalize border-bottom"><?= $_SESSION['pseudo'] ?></span>

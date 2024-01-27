@@ -1,42 +1,52 @@
 <?php
-require_once '../db_config/db.php';
-require_once '../db_managment.php';
-require_once '../partials/auth-layout/part-1.php';
-require_once '../checks/check_datas.php';
+     require_once '../db_config/db.php';
+     require_once '../db_managment.php';
+     require_once '../checks/check_datas.php';
 
-if (!isset($_SESSION['id'])) {
-     header('location: ../auth/signin.php');
-}
+     if (!isset($_SESSION['id'])) {
+          header('location: ../auth/signin.php');
+     }
 
-if (!isset($_GET['post_id'])) {
-     header('location: ../index.php');               
-}
+     if (!isset($_GET['post_id'])) {
+          header('location: ../index.php');               
+     }
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Edit Post</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+     <link rel="stylesheet" href="../style/style.css?<?php echo filemtime("../style/style.css"); ?>" type="text/css">
+</head>
+<body>
      <?php require_once '../partials/headers/connected-header.php' ?>
-
+     
      <?php
-
+     
           try {
                $categories = get_categories();
                $post = get_post((int) $_GET['post_id']);
                $categories_post = get_categories_of_a_post((int) $_GET['post_id']);
           } catch (\Throwable $e) {
-               $e->getMessage();
+               echo $e->getMessage();
           }
           
           $title = $post['title'] ?? '';
           $content = $post['content'] ?? '';
           $error_post = $success_post = '';
-
-
+     
+     
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
                if (empty($_POST['title']) || empty($_POST['content'])) {
                     $error_post = 'Les champs ne doivent pas être vides';
                } else {
                     $_POST['title'] = test_input($_POST['title']);
                     $_POST['content'] = test_input($_POST['content']);
-
+     
                     if ($_POST['title'] == '' || $_POST['content'] == '') {
                          $error_post = 'Les champs ne doivent pas être vides';
                     } 
@@ -51,21 +61,21 @@ if (!isset($_GET['post_id'])) {
                          if ($post['content'] != $_POST['content']) {
                               // array_push($updated_post, $_POST['content']);
                               $updated_post['content'] = $_POST['content'];
-
+     
                          }
                          
                     
                          $allSelectedNumbers = array_map(function ($number) {
                               return (int) $number;
                          }, $_POST['numbers']);
-
+     
                          if (($title != $_POST['title']) || ($content != $_POST['content'])) {
                               update_myPost($_SESSION['id'], $updated_post, $post['id']);
                               $success_post = "Post modifié avec succès";
                          }
-
-
-
+     
+     
+     
                          // Compare the values of two arrays, and return the matches
                          $result=array_intersect($allSelectedNumbers,$categories_post);
                          if (count($allSelectedNumbers) != count($result)) {
@@ -84,7 +94,7 @@ if (!isset($_GET['post_id'])) {
                                    echo  $e->getMessage();
                               }
                          }
-
+     
                          // if there is a success message we update the categories of the post
                          if ($success_post != '') {
                               try {
@@ -101,7 +111,7 @@ if (!isset($_GET['post_id'])) {
                }
           }
      ?>
-
+     
      <div class="container mt-3">
           <div class="wrapper mx-auto px-1 pb-3">
                <h1 class="text-center text-uppercase">EDIT POST</h1>
@@ -114,7 +124,7 @@ if (!isset($_GET['post_id'])) {
                     <?php endif; ?>
                     <div class="row mb-3">
                          <div class="col-12 col-md-8 offset-md-2">
-                              <input type="test" placeholder="title" name="title" id="title" class="form-control input" value="<?= isset($_POST['title']) ? $_POST['title'] : $post['title']  ?>">
+                              <input type="text" placeholder="title" name="title" id="title" class="form-control input" value="<?= isset($_POST['title']) ? $_POST['title'] : $post['title']  ?>">
                          </div>
                     </div>
                     <div class="row mb-3">
@@ -138,5 +148,6 @@ if (!isset($_GET['post_id'])) {
                </form>
           </div>
      </div>
-
-<?php require_once '../partials/auth-layout/part-2.php' ?>
+     
+</body>
+</html>
