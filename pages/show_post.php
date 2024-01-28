@@ -10,13 +10,74 @@
           header('location: ../index.php');               
      }
 
+     //////////////////////////// Code pour les posts //////////////////////////
+
+     try {
+          $post = get_post($_GET['post_id']);
+          // $comments = show_comments($_GET['post_id']);
+          $timestamp_creation = mktime(
+               $post['hour_creation'], $post['minute_creation'], $post['second_creation'],
+               $post['month_creation'], $post['day_creation'], $post['year_creation']
+
+          );
+          
+          $getDate_creation = getdate($timestamp_creation);
+          $date_creation = $getDate_creation['weekday'] .' '. $getDate_creation['mday'] .' '. $getDate_creation['month'] .' '. $getDate_creation['year'] .' | '. $getDate_creation['hours'] .':'. $getDate_creation['minutes'];
+          
+          $timestamp_update = mktime(
+               $post['hour_update'], $post['minute_update'], $post['second_update'],
+               $post['month_update'], $post['day_update'], $post['year_update']
+
+          );
+          
+          $getDate_update = getdate($timestamp_update);
+          $date_update = $getDate_update['weekday'] .' '. $getDate_update['mday'] .' '. $getDate_update['month'] .' '. $getDate_update['year'].' | '. $getDate_update['hours'] .':'. $getDate_update['minutes'];
+
+     } catch (\Throwable $e) {
+          echo $e->getMessage();
+     }
+     
+     //////////////////////////// Code pour les commentaires //////////////////////////
+     
      // On détermine sur quelle page on se trouve
      if (isset($_GET['page']) && !empty($_GET['page'])) {
           $currentPage = (int) strip_tags($_GET['page']);
      } else {
           $currentPage = 1;
      }
+     
+     $title = $content = $error_post =  '';
 
+     // ajouter un commentaire
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          if (empty($_POST['title']) || empty($_POST['content'])) {
+               $error_post = 'Les champs ne doivent pas être vides';
+          } else {
+               $_POST['title'] = test_input($_POST['title']);
+               $_POST['content'] = test_input($_POST['content']);
+
+               if ($_POST['title'] == '' || $_POST['content'] == '') {
+                    $error_post = 'Les champs ne doivent pas être vides';
+               } else {
+                    $new_comments = array(
+                         'email' => $_SESSION['email'],
+                         'title' => $_POST['title'],
+                         'content' => $_POST['content'],
+                         'user_id' => $_SESSION['id'],
+                         'post_id' => $_GET['post_id'],
+                    );
+
+                    try {
+                         add_comments($new_comments);
+                         header("location: ./show_post.php?post_id={$_GET['post_id']}");
+                         
+                         
+                    } catch (\Throwable $e) {
+                         echo $e->getMessage();
+                    }
+               }
+          }
+     }
 
      // On détermine le nombre de commentaire par page
      define('PER_PAGE', 10);
@@ -45,8 +106,6 @@
                echo $e->getMessage();
           }
      }
-
-     
      
 ?>
 <!DOCTYPE html>
@@ -62,64 +121,7 @@
 <body>
      
      <?php require_once '../partials/headers/connected-header.php' ?>
-     <?php
-          try {
-               $post = get_post($_GET['post_id']);
-               // $comments = show_comments($_GET['post_id']);
-               $timestamp_creation = mktime(
-                    $post['hour_creation'], $post['minute_creation'], $post['second_creation'],
-                    $post['month_creation'], $post['day_creation'], $post['year_creation']
      
-               );
-               
-               $getDate_creation = getdate($timestamp_creation);
-               $date_creation = $getDate_creation['weekday'] .' '. $getDate_creation['mday'] .' '. $getDate_creation['month'] .' '. $getDate_creation['year'] .' | '. $getDate_creation['hours'] .':'. $getDate_creation['minutes'];
-               
-               $timestamp_update = mktime(
-                    $post['hour_update'], $post['minute_update'], $post['second_update'],
-                    $post['month_update'], $post['day_update'], $post['year_update']
-     
-               );
-               
-               $getDate_update = getdate($timestamp_update);
-               $date_update = $getDate_update['weekday'] .' '. $getDate_update['mday'] .' '. $getDate_update['month'] .' '. $getDate_update['year'].' | '. $getDate_update['hours'] .':'. $getDate_update['minutes'];
-     
-          } catch (\Throwable $e) {
-               echo $e->getMessage();
-          }
-
-          $title = $content = $error_post =  '';
-
-          if ($_SERVER["REQUEST_METHOD"] == "POST") {
-               if (empty($_POST['title']) || empty($_POST['content'])) {
-                    $error_post = 'Les champs ne doivent pas être vides';
-               } else {
-                    $_POST['title'] = test_input($_POST['title']);
-                    $_POST['content'] = test_input($_POST['content']);
-
-                    if ($_POST['title'] == '' || $_POST['content'] == '') {
-                         $error_post = 'Les champs ne doivent pas être vides';
-                    } else {
-                         $new_comments = array(
-                              'email' => $_SESSION['email'],
-                              'title' => $_POST['title'],
-                              'content' => $_POST['content'],
-                              'user_id' => $_SESSION['id'],
-                              'post_id' => $_GET['post_id'],
-                         );
-
-                         try {
-                              add_comments($new_comments);
-                              header("location: ./show_post.php?post_id={$_GET['post_id']}");
-                              
-                              
-                         } catch (\Throwable $e) {
-                              echo $e->getMessage();
-                         }
-                    }
-               }
-          }
-     ?>
      <div class="container mt-3">
           <div class="wrapper_show_post">
                <h1 class="text-center"><?= $post['title'] ?></h1>

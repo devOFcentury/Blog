@@ -11,6 +11,89 @@
           header('location: ../index.php');               
      }
 
+     try {
+          $categories = get_categories();
+          $post = get_post((int) $_GET['post_id']);
+          $categories_post = get_categories_of_a_post((int) $_GET['post_id']);
+     } catch (\Throwable $e) {
+          echo $e->getMessage();
+     }
+     
+     $title = $post['title'] ?? '';
+     $content = $post['content'] ?? '';
+     $error_post = $success_post = '';
+
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          if (empty($_POST['title']) || empty($_POST['content'])) {
+               $error_post = 'Les champs ne doivent pas être vides';
+          } else {
+               $_POST['title'] = test_input($_POST['title']);
+               $_POST['content'] = test_input($_POST['content']);
+
+               if ($_POST['title'] == '' || $_POST['content'] == '') {
+                    $error_post = 'Les champs ne doivent pas être vides';
+               } 
+               else { 
+                    $updated_post = array();
+
+                    if ($post['title'] != $_POST['title']) {
+                         // array_push($updated_post, $_POST['title']);
+                         $updated_post['title'] = $_POST['title'];
+                    }
+
+                    if ($post['content'] != $_POST['content']) {
+                         // array_push($updated_post, $_POST['content']);
+                         $updated_post['content'] = $_POST['content'];
+
+                    }
+                    
+               
+                    $allSelectedNumbers = array_map(function ($number) {
+                         return (int) $number;
+                    }, $_POST['numbers']);
+
+                    if (($title != $_POST['title']) || ($content != $_POST['content'])) {
+                         update_myPost($_SESSION['id'], $updated_post, $post['id']);
+                         $success_post = "Post modifié avec succès";
+                    }
+
+
+
+                    // Compare the values of two arrays, and return the matches
+                    $result=array_intersect($allSelectedNumbers,$categories_post);
+                    if (count($allSelectedNumbers) != count($result)) {
+                         try {
+                              update_link_posts_categories($allSelectedNumbers, $categories_post, $post['id']);
+                              $success_post = "Post modifié avec succès";
+                         } catch (\Throwable $e) {
+                              echo  $e->getMessage();
+                         }
+                    }
+                    elseif (count($allSelectedNumbers) != count($categories_post)) {
+                         try {
+                              update_link_posts_categories($allSelectedNumbers, $categories_post, $post['id']);
+                              $success_post = "Post modifié avec succès";
+                         } catch (\Throwable $e) {
+                              echo  $e->getMessage();
+                         }
+                    }
+
+                    // if there is a success message we update the categories of the post
+                    if ($success_post != '') {
+                         try {
+                              $categories = get_categories();
+                              $categories_post = get_categories_of_a_post((int) $_GET['post_id']);
+                         } catch (\Throwable $e) {
+                              $e->getMessage();
+                         }
+                         
+                    }
+               
+               }
+          
+          }
+     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,93 +107,6 @@
 </head>
 <body>
      <?php require_once '../partials/headers/connected-header.php' ?>
-     
-     <?php
-     
-          try {
-               $categories = get_categories();
-               $post = get_post((int) $_GET['post_id']);
-               $categories_post = get_categories_of_a_post((int) $_GET['post_id']);
-          } catch (\Throwable $e) {
-               echo $e->getMessage();
-          }
-          
-          $title = $post['title'] ?? '';
-          $content = $post['content'] ?? '';
-          $error_post = $success_post = '';
-     
-     
-          if ($_SERVER["REQUEST_METHOD"] == "POST") {
-               if (empty($_POST['title']) || empty($_POST['content'])) {
-                    $error_post = 'Les champs ne doivent pas être vides';
-               } else {
-                    $_POST['title'] = test_input($_POST['title']);
-                    $_POST['content'] = test_input($_POST['content']);
-     
-                    if ($_POST['title'] == '' || $_POST['content'] == '') {
-                         $error_post = 'Les champs ne doivent pas être vides';
-                    } 
-                    else { 
-                         $updated_post = array();
-     
-                         if ($post['title'] != $_POST['title']) {
-                              // array_push($updated_post, $_POST['title']);
-                              $updated_post['title'] = $_POST['title'];
-                         }
-     
-                         if ($post['content'] != $_POST['content']) {
-                              // array_push($updated_post, $_POST['content']);
-                              $updated_post['content'] = $_POST['content'];
-     
-                         }
-                         
-                    
-                         $allSelectedNumbers = array_map(function ($number) {
-                              return (int) $number;
-                         }, $_POST['numbers']);
-     
-                         if (($title != $_POST['title']) || ($content != $_POST['content'])) {
-                              update_myPost($_SESSION['id'], $updated_post, $post['id']);
-                              $success_post = "Post modifié avec succès";
-                         }
-     
-     
-     
-                         // Compare the values of two arrays, and return the matches
-                         $result=array_intersect($allSelectedNumbers,$categories_post);
-                         if (count($allSelectedNumbers) != count($result)) {
-                              try {
-                                   update_link_posts_categories($allSelectedNumbers, $categories_post, $post['id']);
-                                   $success_post = "Post modifié avec succès";
-                              } catch (\Throwable $e) {
-                                   echo  $e->getMessage();
-                              }
-                         }
-                         elseif (count($allSelectedNumbers) != count($categories_post)) {
-                              try {
-                                   update_link_posts_categories($allSelectedNumbers, $categories_post, $post['id']);
-                                   $success_post = "Post modifié avec succès";
-                              } catch (\Throwable $e) {
-                                   echo  $e->getMessage();
-                              }
-                         }
-     
-                         // if there is a success message we update the categories of the post
-                         if ($success_post != '') {
-                              try {
-                                   $categories = get_categories();
-                                   $categories_post = get_categories_of_a_post((int) $_GET['post_id']);
-                              } catch (\Throwable $e) {
-                                   $e->getMessage();
-                              }
-                              
-                         }
-                    
-                    }
-               
-               }
-          }
-     ?>
      
      <div class="container mt-3">
           <div class="wrapper mx-auto px-1 pb-3">

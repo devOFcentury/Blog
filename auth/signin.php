@@ -1,9 +1,21 @@
 <?php
      require '../db_config/db.php';
+     require_once './auth_check.php';
 
      if (isset($_SESSION['id'])) {
           header('Location: ../index.php');
      }
+
+     $error_credential = $email = $password = '';
+
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          try {
+               signin();
+          } catch (\Throwable $e) {
+               $error_db =  $e->getCode();
+          }
+     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,21 +29,6 @@
 </head>
 <body>
      <?php require_once '../partials/headers/guest-header.php'; ?>
-     
-     <?php
-          require_once './auth_check.php';
-          $error_credential = $email = $password = '';
-     
-          if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    try {
-                         signin();
-                    } catch (\Throwable $e) {
-                         $error_db =  $e->getCode();
-                    }
-               
-          }
-          
-     ?>
      
      <div class="container mt-3">
           <div class="wrapper mx-auto px-1 pb-3">

@@ -6,6 +6,48 @@
      if (!isset($_SESSION['id'])) {
           header('location: ../auth/signin.php');
      }
+
+     $title = $content = $error_post = $success_post = '';
+     try {
+          $categories = get_categories();
+     } catch (\Throwable $e) {
+          echo $e->getMessage();
+     }
+
+
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          if (empty($_POST['title']) || empty($_POST['content'])) {
+               $error_post = 'Les champs ne doivent pas être vides';
+          } 
+          else {
+               $_POST['title'] = test_input($_POST['title']);
+               $_POST['content'] = test_input($_POST['content']);
+
+               if ($_POST['title'] == '' || $_POST['content'] == '') {
+                    $error_post = 'Les champs ne doivent pas être vides';
+               } 
+               else {
+                    
+                    $allSelectedNumbers = array_map(function ($number) {
+                         return (int) $number;
+                    }, $_POST['numbers']);
+               
+                    $post = array(
+                         'title' => $_POST['title'],
+                         'content' => $_POST['content']
+                    );
+               
+                    try {
+                         add_post($_SESSION['id'], $post, $allSelectedNumbers);
+                         $success_post = "Post créé avec succès";
+                    } catch (\Throwable $e) {
+                         echo  $e->getMessage();
+                    }
+               }
+          
+          }
+     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,49 +61,6 @@
 </head>
 <body>
      <?php require_once '../partials/headers/connected-header.php' ?>
-     
-     <?php
-          $title = $content = $error_post = $success_post = '';
-          try {
-               $categories = get_categories();
-          } catch (\Throwable $e) {
-               echo $e->getMessage();
-          }
-     
-     
-          if ($_SERVER["REQUEST_METHOD"] == "POST") {
-               if (empty($_POST['title']) || empty($_POST['content'])) {
-                    $error_post = 'Les champs ne doivent pas être vides';
-               } 
-               else {
-                    $_POST['title'] = test_input($_POST['title']);
-                    $_POST['content'] = test_input($_POST['content']);
-     
-                    if ($_POST['title'] == '' || $_POST['content'] == '') {
-                         $error_post = 'Les champs ne doivent pas être vides';
-                    } 
-                    else {
-                         
-                         $allSelectedNumbers = array_map(function ($number) {
-                              return (int) $number;
-                         }, $_POST['numbers']);
-                    
-                         $post = array(
-                              'title' => $_POST['title'],
-                              'content' => $_POST['content']
-                         );
-                    
-                         try {
-                              add_post($_SESSION['id'], $post, $allSelectedNumbers);
-                              $success_post = "Post créé avec succès";
-                         } catch (\Throwable $e) {
-                              echo  $e->getMessage();
-                         }
-                    }
-               
-               }
-          }
-     ?>
      
      <div class="container mt-3">
           <div class="wrapper mx-auto px-1 pb-3">
