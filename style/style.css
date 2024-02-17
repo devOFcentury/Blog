@@ -1,0 +1,228 @@
+* {
+     margin: 0;
+     padding: 0;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+     background: #eeeded;
+}
+
+.active {
+     color: #5FE88D !important;
+}
+
+.header {
+     position: sticky;
+     top: 0;
+     z-index: 1;
+}
+
+.wrapper {
+     width: 70%;
+     min-width: 300px;
+     max-width: 600px;
+}
+
+.input {
+     border: none;
+     padding: 0.5rem;
+     border-radius: 1rem;
+     background: #e8e8e8;
+     box-shadow: 20px 20px 60px #c5c5c5,
+          -20px -20px 60px #ffffff;
+     transition: 0.3s;
+}
+
+.input:focus {
+     outline-color: #e8e8e8;
+     background: #e8e8e8;
+     box-shadow: inset 20px 20px 60px #c5c5c5,
+          inset -20px -20px 60px #ffffff;
+     transition: 0.3s;
+}
+
+
+.input::placeholder {
+     opacity: 0.7;
+}
+
+
+.button {
+     font-size: 18px;
+     display: inline-block;
+     outline: 0;
+     border: 0;
+     cursor: pointer;
+     will-change: box-shadow, transform;
+     background: radial-gradient(100% 100% at 100% 0%, #89E5FF 0%, #5468FF 100%);
+     box-shadow: 0px 0.01em 0.01em rgb(45 35 66 / 40%), 0px 0.3em 0.7em -0.01em rgb(45 35 66 / 30%), inset 0px -0.01em 0px rgb(58 65 111 / 50%);
+     padding: 0 2em;
+     border-radius: 0.3em;
+     color: #fff;
+     height: 2.6em;
+     text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
+     transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.button:hover {
+     box-shadow: 0px 0.1em 0.2em rgb(45 35 66 / 40%), 0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%), inset 0px -0.1em 0px #3c4fe0;
+     transform: translateY(-0.1em);
+}
+
+.button:active {
+     box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
+     transform: translateY(0em);
+}
+
+ul li:first-child, ul li:last-child {
+     width: 120px;
+     position: relative;
+     text-align: left;
+}
+
+.list {
+     width: 100%;
+     position: absolute;
+     box-sizing: border-box;
+     z-index: 1;
+     height: 0px;
+     overflow-y: hidden;
+     top: 50px;
+     left: 0px;
+     cursor: pointer;
+     -webkit-transition: 0.2s ease-in-out;
+     transition: 0.2s ease-in-out;
+}
+
+.item {
+     width: 100%;
+     background-color: #fff;
+     -webkit-transition: 0.2s ease-in-out;
+     transition: 0.2s ease-in-out;
+     font-weight: 400;
+}
+
+.item:hover {
+     background-color: #eee;
+}
+
+.list-1, .list-2 {
+     -webkit-transform: translateY(-20px);
+     transform: translateY(-20px);
+     z-index: 10;
+}
+
+#toggle-2:checked~.list-2, #toggle-1:checked~.list-1 {
+     height: initial;
+     -webkit-transform: translateY(0px);
+     transform: translateY(0px);
+}
+
+
+.card {
+     position: relative;
+     color: #090909;
+     background: #e8e8e8;
+     transition: 0.5s ease-out;
+     overflow: hidden;
+     border: 1px solid #e8e8e8;
+     border-radius: 20px;
+     box-shadow: 6px 6px 12px #c5c5c5,
+          -6px -6px 12px #ffffff;
+     flex: 1;
+}
+
+/*Hover*/
+.card:hover {
+     border-color: #008bf8;
+     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+aside {
+     height: 150px;
+     position: sticky;
+     top: 55px;
+}
+
+.modify_button , .see_more_button {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     box-sizing: border-box;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: #008bf8;
+     text-decoration: none;
+     color: #FFF;
+     position: absolute;
+     left: -50%;
+     bottom: 0%;
+     transition: 0.3s ease-out;
+}
+
+.modify_button {
+     transform: translateY(-200%);
+}
+
+.see_more_button {
+     transform: translateY(-50%);
+}
+
+.card:hover .modify_button, .card:hover .see_more_button {
+     left: 10%;
+}
+
+.label_profile, .author_profile {
+     width: 50px;
+     padding: 0;
+}
+
+.image_profile {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     /* margin: auto; */
+}
+
+.wrapper_show_post {
+     width: 70%;
+     min-width: 300px;
+     max-width: 100%;
+     margin: auto;
+}
+
+.info_post {
+     font-size: 12px;
+}
+
+.text_info {
+     height: 70px;
+     margin-left: 5px;
+}
+
+.text_info span:nth-child(2), .text_info span:last-child {
+     color: gray;
+     font-size: 11px;
+}
+
+.author_profile {
+     width: 50px;
+     height: 50px;
+     height: 50%;
+}
+
+.wrapper_comments {
+     background-color: gainsboro;
+}
+
+.comments{
+     margin: 10px 0px;
+     max-width: 50vw;
+     margin: auto;
+     border-top: 1px solid gray;
+     display: flex;
+     flex-direction: column;
+     padding-bottom: 2px;
+}
