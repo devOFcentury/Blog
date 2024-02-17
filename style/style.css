@@ -174,7 +174,7 @@ aside {
      left: 10%;
 }
 
-.label_profile {
+.label_profile, .author_profile {
      width: 50px;
      padding: 0;
 }
@@ -184,4 +184,45 @@ aside {
      height: 40px;
      border-radius: 50%;
      /* margin: auto; */
+}
+
+.wrapper_show_post {
+     width: 70%;
+     min-width: 300px;
+     max-width: 100%;
+     margin: auto;
+}
+
+.info_post {
+     font-size: 12px;
+}
+
+.text_info {
+     height: 70px;
+     margin-left: 5px;
+}
+
+.text_info span:nth-child(2), .text_info span:last-child {
+     color: gray;
+     font-size: 11px;
+}
+
+.author_profile {
+     width: 50px;
+     height: 50px;
+     height: 50%;
+}
+
+.wrapper_comments {
+     background-color: gainsboro;
+}
+
+.comments{
+     margin: 10px 0px;
+     max-width: 50vw;
+     margin: auto;
+     border-top: 1px solid gray;
+     display: flex;
+     flex-direction: column;
+     padding-bottom: 2px;
 }

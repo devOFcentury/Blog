@@ -96,6 +96,8 @@ function update_myPost(int $user_id, array $posts, int $post_id)
           $out1 .= $column . " = :$column, ";
      }
 
+     $out1 .= "updated_at=NOW(), ";
+
      $out2 = "WHERE id = :id";
      $output = $out . rtrim($out1, ", ") . " " . $out2;
 
@@ -121,13 +123,22 @@ function get_post(int $id)
 {
      global $pdo;
 
-     $query = "SELECT * FROM posts WHERE id={$id}";
+     $response = $pdo->prepare("SELECT 
+          p.id, title, content, user_id, 
+          DAY(p.created_at) AS day_creation, MONTH(p.created_at) AS month_creation, YEAR(p.created_at) year_creation,
+          HOUR(p.created_at) AS hour_creation, MINUTE(p.created_at) AS minute_creation, SECOND(p.created_at) AS second_creation,
+          DAY(p.updated_at) as day_update, MONTH(p.updated_at) AS month_update, YEAR(p.updated_at) year_update,
+          HOUR(p.updated_at) AS hour_update, MINUTE(p.updated_at) AS minute_update, SECOND(p.updated_at) AS second_update,
+          u.pseudo
+          FROM posts AS p
+          INNER JOIN users AS u
+               ON p.user_id = u.id
+          WHERE p.id = ?
+     ");
 
-     $response = $pdo->query($query);
+     $response->execute(array($id));
 
-     $post = $response->fetch();
-
-     return $post;
+     return $response->fetch();
 }
 
 function get_posts(int $limit = 10, int $offset = 0)
@@ -292,11 +303,22 @@ function delete_comments(int $comment_id, int $user_id)
      return 1;
 }
 
-function show_comments($post_id)
+function show_comments($post_id, int $limit = 10, int $offset = 0)
 {
      global $pdo;
-     $query = $pdo->prepare("SELECT email, title, content, post_id, user_id, created_at, updated_at FROM comments WHERE post_id= ?");
-     $query->execute(array($post_id));
+     $query = $pdo->prepare("SELECT 
+          comments.email, title, content, post_id, user_id, comments.created_at, comments.updated_at, users.pseudo
+          FROM comments 
+          INNER JOIN users
+          ON comments.user_id = users.id
+          WHERE post_id= :post_id
+          ORDER BY comments.id DESC 
+          LIMIT :limit OFFSET :offset
+     ");
+     $query->bindParam(':limit', $limit, PDO::PARAM_INT);
+     $query->bindParam(':offset', $offset, PDO::PARAM_INT);
+     $query->bindParam(':post_id', $post_id, PDO::PARAM_INT);
+     $query->execute();
 
      return $query->fetchAll();
 }
